@@ -11,7 +11,10 @@
     "build:es": "trash es/* && cross-env NODE_ENV=es babel src --out-dir es",
     "test": "jest --config=jest.config.js",
     "test:production": "jest --config=jest.production.config.js",
-    "generate-docs": "patch-package && jsdoc --configure jsdoc.config.js --verbose"
+    "generate-docs": "patch-package && jsdoc --configure jsdoc.config.js --verbose",
+    "postversion": "trash es/version.js && genversion es/version.js && trash cjs/version.js && genversion cjs/version.js",
+    "prepare": "npm run build && husky install",
+    "release": "np"
   },
   "keywords": [
     "compress",
@@ -42,6 +45,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-plugin-jest": "^24.4.2",
+    "genversion": "^3.0.1",
     "husky": "^7.0.2",
     "jest": "^27.2.1",
     "jsdoc": "^3.6.7",
