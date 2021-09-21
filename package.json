@@ -9,10 +9,12 @@
     "build": "npm run build:cjs && npm run build:es",
     "build:cjs": "trash cjs/* && cross-env NODE_ENV=cjs babel src --out-dir cjs",
     "build:es": "trash es/* && cross-env NODE_ENV=es babel src --out-dir es",
+    "postbuild": "npm run postbuild:cjs && npm run postbuild:es",
+    "postbuild:cjs": "trash cjs/version.js && genversion cjs/version.js",
+    "postbuild:es": "trash es/version.js && genversion es/version.js",
     "test": "jest --config=jest.config.js",
     "test:production": "jest --config=jest.production.config.js",
     "generate-docs": "patch-package && jsdoc --configure jsdoc.config.js --verbose",
-    "postversion": "trash es/version.js && genversion es/version.js && trash cjs/version.js && genversion cjs/version.js",
     "prepare": "npm run build && husky install",
     "release": "np"
   },
