@@ -1,0 +1,159 @@
+diff --git a/node_modules/clean-jsdoc-theme/publish.js b/node_modules/clean-jsdoc-theme/publish.js
+index 37c722f..a1b4f89 100644
+--- a/node_modules/clean-jsdoc-theme/publish.js
++++ b/node_modules/clean-jsdoc-theme/publish.js
+@@ -557,7 +557,7 @@ function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
+         });
+ 
+         if (itemsNav !== '') {
+-            nav += '<div class="accordion collapsed" id="' +
++            nav += '<div class="accordion" id="' +
+                 Math.floor(Math.random() * 10000000) +
+                 '" > <h3 class="accordion-heading">' +
+                 itemHeading + '<svg><use xlink:href="#down-icon"></use></svg>' +
+@@ -599,14 +599,10 @@ function buildNav(members) {
+     var isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
+     var nav;
+ 
+-    if (!isHTML(title)) {
+-        nav = '<div class="navbar-heading" id="navbar-heading"><a href="index.html"><h2 class="navbar-heading-text">' +
+-            title +
+-            '</h2></a></div>';
+-    }
+-    else {
+-        nav = '<h2><a href="index.html">' + title + '</a></h2>';
+-    }
++
++    nav = '<div class="navbar-heading" id="navbar-heading"><a href="index.html"><h2 class="navbar-heading-text">' +
++        title +
++        '</h2></a></div>';
+ 
+ 
+     if (haveSearch) { nav += buildSearch(); }
+diff --git a/node_modules/clean-jsdoc-theme/static/scripts/fix-code-block.js b/node_modules/clean-jsdoc-theme/static/scripts/fix-code-block.js
+index 3f55369..bf5d374 100644
+--- a/node_modules/clean-jsdoc-theme/static/scripts/fix-code-block.js
++++ b/node_modules/clean-jsdoc-theme/static/scripts/fix-code-block.js
+@@ -1,53 +1,53 @@
+-/* global document */
+-(function() {
+-    var targets = document.querySelectorAll('pre');
+-    var main = document.querySelector('#main');
+-
+-    var footer = document.querySelector('#footer');
+-    var pageTitle = document.querySelector('#page-title');
+-    var pageTitleHeight = 0;
+-
+-    var footerHeight = footer.getBoundingClientRect().height;
+-
+-    if (pageTitle) {
+-        pageTitleHeight = pageTitle.getBoundingClientRect().height;
+-
+-        // Adding margin (Outer height)
+-        pageTitleHeight += 45;
+-    }
+-
+-    // subtracted 20 for extra padding.
+-    // eslint-disable-next-line no-undef
+-    var divMaxHeight = window.innerHeight - pageTitleHeight - footerHeight - 80;
+-
+-    setTimeout(function() {
+-        targets.forEach(function(item) {
+-            var innerHTML = item.innerHTML;
+-            var divElement = document.createElement('div');
+-
+-            divElement.style.maxHeight = divMaxHeight + 'px';
+-            divElement.style.marginTop = '2rem';
+-            divElement.innerHTML = innerHTML;
+-            // item.removeChild();
+-            item.innerHTML = '';
+-            item.appendChild(divElement);
+-        });
+-
+-        // eslint-disable-next-line no-undef
+-        main.style.minHeight = window.innerHeight - footerHeight - 15 + 'px';
+-
+-        // See if we have to move something into view
+-        // eslint-disable-next-line no-undef
+-        var location = window.location.href.split('#')[1];
+-
+-        if (location && location.length > 0) {
+-            try {
+-                var element = document.querySelector('#'.concat(decodeURI(location)));
+-
+-                element.scrollIntoView();
+-            } catch (error) {
+-                console.log(error);
+-            }
+-        }
+-    }, 300);
+-})();
++// /* global document */
++// (function() {
++//     var targets = document.querySelectorAll('pre');
++//     var main = document.querySelector('#main');
++
++//     var footer = document.querySelector('#footer');
++//     var pageTitle = document.querySelector('#page-title');
++//     var pageTitleHeight = 0;
++
++//     var footerHeight = footer.getBoundingClientRect().height;
++
++//     if (pageTitle) {
++//         pageTitleHeight = pageTitle.getBoundingClientRect().height;
++
++//         // Adding margin (Outer height)
++//         pageTitleHeight += 45;
++//     }
++
++//     // subtracted 20 for extra padding.
++//     // eslint-disable-next-line no-undef
++//     var divMaxHeight = window.innerHeight - pageTitleHeight - footerHeight - 80;
++
++//     setTimeout(function() {
++//         targets.forEach(function(item) {
++//             var innerHTML = item.innerHTML;
++//             var divElement = document.createElement('div');
++
++//             divElement.style.maxHeight = divMaxHeight + 'px';
++//             divElement.style.marginTop = '2rem';
++//             divElement.innerHTML = innerHTML;
++//             // item.removeChild();
++//             item.innerHTML = '';
++//             item.appendChild(divElement);
++//         });
++
++//         // eslint-disable-next-line no-undef
++//         main.style.minHeight = window.innerHeight - footerHeight - 15 + 'px';
++
++//         // See if we have to move something into view
++//         // eslint-disable-next-line no-undef
++//         var location = window.location.href.split('#')[1];
++
++//         if (location && location.length > 0) {
++//             try {
++//                 var element = document.querySelector('#'.concat(decodeURI(location)));
++
++//                 element.scrollIntoView();
++//             } catch (error) {
++//                 console.log(error);
++//             }
++//         }
++//     }, 300);
++// })();
+diff --git a/node_modules/clean-jsdoc-theme/tmpl/method.tmpl b/node_modules/clean-jsdoc-theme/tmpl/method.tmpl
+index e7a938f..63f81ec 100644
+--- a/node_modules/clean-jsdoc-theme/tmpl/method.tmpl
++++ b/node_modules/clean-jsdoc-theme/tmpl/method.tmpl
+@@ -11,6 +11,11 @@ var self = this;
+         <a href="#<?js= id ?>">#</a>
+         <?js= data.attribs + (kind === 'class' ? 'new ' : '') + name + (data.signature || '') ?>
+     </h4>
++    <?js if (data.import) { ?>
++        <div style="margin-bottom: 24px;margin-top: -10px;" class="">
++            <code style="color: #333;">import <?js= data.import ?></code>
++        </div>
++    <?js } ?>
+ 
+     <?js if (data.summary) { ?>
+         <p class="summary"><?js= summary ?></p>

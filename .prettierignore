@@ -14,8 +14,12 @@
 # Ignore Husky pre-commit setup
 .husky/
 
+# Ignore patch files
+patches/
+
 # Ignore other config files
 .lintstagedrc
 .prettierignore
 .gitignore
 netlify.toml
+
