@@ -1,5 +1,7 @@
 import isObjectLike from "lodash.isobjectlike";
+import isPlainObject from "lodash.isplainobject";
 import { getTemplateIndex } from "./getTemplateIndex";
+import { sortObject } from "./sortObject";
 
 /**
  * Generates a table head
@@ -11,13 +13,16 @@ const compress = (element, templates) => {
   // We only compress objects and arrays
   if (!isObjectLike(element)) return element;
 
+  // Sort object keys into alphabetical order
+  if (isPlainObject(element)) element = sortObject(element);
+
+  // Identify template index
+  const templateIndex = getTemplateIndex(element, templates);
+
   // Recursively compress values
   const values = Object.values(element).map((value) =>
     compress(value, templates)
   );
-
-  // Identify template index
-  const templateIndex = getTemplateIndex(element, templates);
 
   // Return compressed element
   return [templateIndex, ...values];

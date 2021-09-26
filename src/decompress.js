@@ -10,7 +10,7 @@ import { ARRAY_TEMPLATE_INDEX } from "./config";
  */
 const decompress = (element, templates) => {
   // We only decompress arrays
-  if (Array.isArray(element)) return element;
+  if (!Array.isArray(element)) return element;
 
   // Recursively decompress values
   const values = element.slice(1).map((value) => decompress(value, templates));

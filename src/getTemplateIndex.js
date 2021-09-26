@@ -6,7 +6,7 @@ const getTemplateIndex = (element, templates) => {
   if (Array.isArray(element)) return ARRAY_TEMPLATE_INDEX;
 
   // Identify existing template
-  const keys = Object.keys(element).sort();
+  const keys = Object.keys(element);
   let index = templates.findIndex((template) => isEqual(template, keys));
 
   // No existing template. Create a new one.
